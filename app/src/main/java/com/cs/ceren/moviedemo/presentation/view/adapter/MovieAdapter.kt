@@ -44,9 +44,8 @@ class MovieAdapter(context: Context) : RecyclerView.Adapter<MovieAdapter.MovieVi
         private val context = context
         fun bind(movie: Movie) {
             itemView.setOnClickListener { listener.onItemClick(movie) }
-            movie.url?.let { itemView.movieImage.loadImage(url = movie.url, context = context) }
+            movie.url?.let { itemView.movieImage.loadImage(url = movie.url) }
         }
-
     }
 
     interface ItemTouchListener {

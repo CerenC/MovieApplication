@@ -51,12 +51,10 @@ class MovieDetailFragment : DaggerFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         arrangeToolbar()
-
-
     }
 
     private fun initView() {
-        movie.url?.let { movieImage.loadImage(url = it, context = requireContext()) }
+        movie.url?.let { movieImage.loadImage(url = it) }
         movieTitle.text = movie.title
         movieOverview.text = movie.overview
 
