@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Module
 class AppModule {
-    val BASE_URL = "https://api.themoviedb.org/"
+    val BASE_URL = "https://api.themoviedb.org/3/"
 
     @Singleton
     @Provides
@@ -31,8 +31,8 @@ class AppModule {
         authenticationInterceptor: AuthenticationInterceptor
     ): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
-        clientBuilder.addInterceptor(httpLoggingInterceptor)
         clientBuilder.addInterceptor(authenticationInterceptor)
+        clientBuilder.addInterceptor(httpLoggingInterceptor)
         return clientBuilder.build()
     }
 
