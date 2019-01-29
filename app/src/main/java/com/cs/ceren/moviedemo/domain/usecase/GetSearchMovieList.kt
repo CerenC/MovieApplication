@@ -6,6 +6,6 @@ import com.cs.ceren.moviedemo.domain.repositories.MovieRepository
 
 class GetSearchMovieList constructor(private val movieRepository: MovieRepository) {
     suspend fun execute(query: String): ResultState<List<Movie>> {
-        return movieRepository.getSearchMovie(query)
+        return movieRepository.getSearchedMovies(query)
     }
 }

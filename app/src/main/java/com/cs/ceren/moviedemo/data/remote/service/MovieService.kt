@@ -10,9 +10,6 @@ interface MovieService {
     fun getMovies(@Query("page") page: Int = 1): Deferred<MoviesResponse>
 
     @GET("search/movie")
-    fun searchMovies(
-        @Query("page") page: Int = 1,
-        @Query("query") query: String
-    ): Deferred<MoviesResponse>
+    fun searchMovies(@Query("page") page: Int = 1, @Query("query") query: String): Deferred<MoviesResponse>
 }
 

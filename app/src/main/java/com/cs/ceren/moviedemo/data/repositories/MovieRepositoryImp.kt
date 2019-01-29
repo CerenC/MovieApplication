@@ -20,7 +20,7 @@ class MovieRepositoryImp @Inject constructor(val movieService: MovieService) : M
         }
     }
 
-    override suspend fun getSearchMovie(query: String): ResultState<List<Movie>> = withContext(IO) {
+    override suspend fun getSearchedMovies(query: String): ResultState<List<Movie>> = withContext(IO) {
         try {
             val response = movieService.searchMovies(query = query).await()
             ResultState.Success(response.results.map {it.toMovie()})

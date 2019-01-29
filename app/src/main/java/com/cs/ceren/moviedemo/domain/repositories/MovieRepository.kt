@@ -5,5 +5,5 @@ import com.cs.ceren.moviedemo.domain.model.Movie
 
 interface MovieRepository {
     suspend fun getMovies () : ResultState<List<Movie>>
-    suspend fun getSearchMovie(query: String) : ResultState<List<Movie>>
+    suspend fun getSearchedMovies(query: String) : ResultState<List<Movie>>
 }
