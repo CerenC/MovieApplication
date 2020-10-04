@@ -8,7 +8,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class MoviesResponse(
     val page: Int,
-    val results: List<MovieItem>,
+    val results: List<MovieResponse>,
     @Json(name = "total_pages")
     val totalPages: Int,
     @Json(name = "total_results")
@@ -16,21 +16,18 @@ data class MoviesResponse(
 )
 
 @JsonClass(generateAdapter = true)
-data class MovieItem(
+data class MovieResponse(
     @Json(name = "poster_path")
     val posterPath: String?,
     val overview: String,
     val id: Int,
     val title: String
-
 )
 
-@JsonClass(generateAdapter = true)
-data class Dates(
-    val maximum: String,
-    val minimum: String
+fun MovieResponse.toMovie(): Movie = Movie(
+    id = id,
+    url = posterPath?.let { Constants.IMAGE_URL + posterPath } ?: null,
+    title = title,
+    overview = overview
 )
 
-fun MovieItem.toMovie(): Movie {
-    return Movie(id, Constants.IMAGE_URL + posterPath, title, overview)
-}

@@ -58,16 +58,6 @@ class MainActivityTest {
             .check(matches(isDisplayed()))
     }
 
-    //
-    @Test
-    fun movies_listItemsCheck() {
-        /*onView(withId(R.id.movieList))
-            .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-        onView(withId(R.id.movieOverview))
-            .check(matches(isDisplayed()))*/
-    }
-
     @Test
     fun useAppContext() {
         // Context of the app under test.

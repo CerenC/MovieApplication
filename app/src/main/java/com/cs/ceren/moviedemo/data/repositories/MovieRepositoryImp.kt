@@ -1,7 +1,6 @@
 package com.cs.ceren.moviedemo.data.repositories
 
 import com.cs.ceren.moviedemo.data.ResultState
-import com.cs.ceren.moviedemo.data.remote.model.MovieItem
 import com.cs.ceren.moviedemo.data.remote.model.toMovie
 import com.cs.ceren.moviedemo.data.remote.service.MovieService
 import com.cs.ceren.moviedemo.domain.model.Movie
@@ -20,16 +19,14 @@ class MovieRepositoryImp @Inject constructor(val movieService: MovieService) : M
         }
     }
 
-    override suspend fun getSearchedMovies(query: String): ResultState<List<Movie>> = withContext(IO) {
-        try {
-            val response = movieService.searchMovies(query = query).await()
-            ResultState.Success(response.results.map {it.toMovie()})
-        } catch (e: Exception) {
-            ResultState.Error(e)
+    override suspend fun getSearchedMovies(query: String): ResultState<List<Movie>> =
+        withContext(IO) {
+            try {
+                val response = movieService.searchMovies(query = query).await()
+                ResultState.Success(response.results.map { it.toMovie() })
+            } catch (e: Exception) {
+                ResultState.Error(e)
+            }
         }
-    }
-
-    //TODO add next page query
-
 
 }

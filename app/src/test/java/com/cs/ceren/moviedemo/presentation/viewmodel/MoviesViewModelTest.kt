@@ -3,8 +3,8 @@ package com.cs.ceren.moviedemo.presentation.viewmodel
 import com.cs.ceren.moviedemo.AndroidTest
 import com.cs.ceren.moviedemo.data.ResultState
 import com.cs.ceren.moviedemo.domain.model.Movie
-import com.cs.ceren.moviedemo.domain.usecase.GetMovies
-import com.cs.ceren.moviedemo.domain.usecase.GetSearchMovieList
+import com.cs.ceren.moviedemo.domain.usecase.GetMoviesUseCase
+import com.cs.ceren.moviedemo.domain.usecase.GetSearchMovieListUseCase
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -17,20 +17,20 @@ class MoviesViewModelTest : AndroidTest() {
     private lateinit var moviesViewModel: MoviesViewModel
 
     @Mock
-    private lateinit var getMovies: GetMovies
+    private lateinit var getMoviesUseCase: GetMoviesUseCase
     @Mock
-    private lateinit var getSearchMovieList: GetSearchMovieList
+    private lateinit var getSearchMovieListUseCase: GetSearchMovieListUseCase
 
     @Before
     fun setUp() {
-        moviesViewModel = MoviesViewModel(getMovies, getSearchMovieList)
+        moviesViewModel = MoviesViewModel(getMoviesUseCase, getSearchMovieListUseCase)
     }
 
     @Test
     fun `loading movies should update live data`() {
         val moviesList = listOf(Movie(11, "", "Amelie", "Amelie"), Movie(12, "", "Batman", "Batman"))
         runBlocking {
-            `when`(getMovies.execute()).thenReturn(ResultState.Success(moviesList))
+            `when`(getMoviesUseCase.execute()).thenReturn(ResultState.Success(moviesList))
             runBlocking { moviesViewModel.loadMovies() }
             moviesViewModel.movies.observeForever {
                 if (it is ResultState.Success) {

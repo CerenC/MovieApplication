@@ -1,6 +1,5 @@
 package com.cs.ceren.moviedemo.presentation.view.adapter
 
-import android.content.Context
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -13,45 +12,39 @@ import com.cs.ceren.moviedemo.presentation.util.MovieDiffUtil
 import kotlinx.android.synthetic.main.list_item_movie.view.*
 import java.util.*
 
-class MovieAdapter(context: Context) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
-    internal var listener: ItemTouchListener
+class MovieAdapter(
+    private val itemClickListener: (Movie) -> Unit
+) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
-    init {
-        listener = context as ItemTouchListener
-    }
+    private val items: ArrayList<Movie> = ArrayList()
 
-    private val list: ArrayList<Movie> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, itemType: Int): MovieViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_movie, parent, false)
-        return MovieViewHolder(view, context = parent.context, listener = listener)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.list_item_movie, parent, false)
+        return MovieViewHolder(view)
     }
 
     override fun onBindViewHolder(viewHolder: MovieViewHolder, position: Int) {
-        viewHolder.bind(list[position])
+        viewHolder.bind(items[position])
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = items.size
 
     fun setItems(itemList: List<Movie>) {
-        val diffResult = DiffUtil.calculateDiff(MovieDiffUtil(itemList, list))
+        val diffResult = DiffUtil.calculateDiff(MovieDiffUtil(itemList, items))
         diffResult.dispatchUpdatesTo(this)
-        list.clear()
-        list.addAll(itemList)
+
+        items.clear()
+        items.addAll(itemList)
     }
 
-    inner class MovieViewHolder(itemView: View, context: Context, listener: ItemTouchListener) :
-        RecyclerView.ViewHolder(itemView) {
-        private val context = context
+    inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
         fun bind(movie: Movie) {
-            itemView.setOnClickListener { listener.onItemClick(movie) }
+            itemView.setOnClickListener { itemClickListener.invoke(movie) }
             movie.url?.let { itemView.movieImage.loadImage(url = movie.url) }
         }
     }
-
-    interface ItemTouchListener {
-        fun onItemClick(item: Movie)
-    }
-
 
 }
 

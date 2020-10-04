@@ -1,8 +1,8 @@
 package com.cs.ceren.moviedemo.di.modules
 
 import com.cs.ceren.moviedemo.domain.repositories.MovieRepository
-import com.cs.ceren.moviedemo.domain.usecase.GetMovies
-import com.cs.ceren.moviedemo.domain.usecase.GetSearchMovieList
+import com.cs.ceren.moviedemo.domain.usecase.GetMoviesUseCase
+import com.cs.ceren.moviedemo.domain.usecase.GetSearchMovieListUseCase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -11,9 +11,11 @@ import javax.inject.Singleton
 class UseCaseModule {
     @Singleton
     @Provides
-    fun provideGetMovie(repository: MovieRepository): GetMovies = GetMovies(repository)
+    fun provideGetMovie(repository: MovieRepository): GetMoviesUseCase =
+        GetMoviesUseCase(repository)
 
     @Singleton
     @Provides
-    fun provideGetSearchMovieListe(repository: MovieRepository): GetSearchMovieList = GetSearchMovieList(repository)
+    fun provideGetSearchMovieListe(repository: MovieRepository): GetSearchMovieListUseCase =
+        GetSearchMovieListUseCase(repository)
 }

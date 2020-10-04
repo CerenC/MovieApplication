@@ -2,7 +2,7 @@ package com.cs.ceren.moviedemo.data.repositories
 
 import com.cs.ceren.moviedemo.UnitTest
 import com.cs.ceren.moviedemo.data.ResultState
-import com.cs.ceren.moviedemo.data.remote.model.MovieItem
+import com.cs.ceren.moviedemo.data.remote.model.MovieResponse
 import com.cs.ceren.moviedemo.data.remote.model.MoviesResponse
 import com.cs.ceren.moviedemo.data.remote.model.toMovie
 import com.cs.ceren.moviedemo.data.remote.service.MovieService
@@ -22,6 +22,7 @@ class MovieRepositoryImpTest : UnitTest() {
 
     @Mock
     private lateinit var service: MovieService
+
     @Mock
     private lateinit var response: MoviesResponse
 
@@ -46,14 +47,19 @@ class MovieRepositoryImpTest : UnitTest() {
 
     @Test
     fun `get movie list from service success`() {
-        response = MoviesResponse(1, listOf(MovieItem("", "Life is Beautiful", 1, "Life is Beautiful")), 42, 100)
+        response = MoviesResponse(
+            1,
+            listOf(MovieResponse("", "Life is Beautiful", 1, "Life is Beautiful")),
+            42,
+            100
+        )
         runBlocking {
             `when`(service.getMovies()).thenReturn(async { response })
             val movies = movieRepository.getMovies()
             verify(service).getMovies()
             assertThat(movies, instanceOf(ResultState.Success::class.java))
             if (movies is ResultState.Success) {
-                val movieList = response.results.map { (it as MovieItem).toMovie() }
+                val movieList = response.results.map { (it as MovieResponse).toMovie() }
                 assertThat(movies.data, `is`(movieList))
             }
         }
@@ -62,7 +68,6 @@ class MovieRepositoryImpTest : UnitTest() {
     @Test
     fun `get movie list from service fail`() {
         runBlocking {
-            `when`(service.getMovies(0)).thenReturn(async { response })
             val movies = movieRepository.getMovies()
             verify(service).getMovies()
             assertThat(movies, instanceOf(ResultState.Error::class.java))

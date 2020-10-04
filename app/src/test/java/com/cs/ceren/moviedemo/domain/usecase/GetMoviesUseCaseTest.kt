@@ -2,22 +2,17 @@ package com.cs.ceren.moviedemo.domain.usecase
 
 import com.cs.ceren.moviedemo.UnitTest
 import com.cs.ceren.moviedemo.data.ResultState
-import com.cs.ceren.moviedemo.data.repositories.MovieRepositoryImp
-import com.cs.ceren.moviedemo.domain.model.Movie
 import com.cs.ceren.moviedemo.domain.repositories.MovieRepository
-import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
-import org.mockito.BDDMockito.given
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 
 
-class GetMoviesTest : UnitTest() {
+class GetMoviesUseCaseTest : UnitTest() {
 
-    private lateinit var getMovies: GetMovies
+    private lateinit var getMoviesUseCase: GetMoviesUseCase
 
     @Mock
     private lateinit var moviesRepository: MovieRepository
@@ -25,7 +20,7 @@ class GetMoviesTest : UnitTest() {
     @Before
     fun setUp() {
         runBlocking {
-            getMovies = GetMovies(moviesRepository)
+            getMoviesUseCase = GetMoviesUseCase(moviesRepository)
         }
     }
 
@@ -33,7 +28,7 @@ class GetMoviesTest : UnitTest() {
     fun `should get data from repository`() {
         runBlocking {
             `when`(moviesRepository.getMovies()).thenReturn(ResultState.Success(emptyList()))
-            getMovies.execute()
+            getMoviesUseCase.execute()
             verify(moviesRepository).getMovies()
             verifyNoMoreInteractions(moviesRepository)
         }
